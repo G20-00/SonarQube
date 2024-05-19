@@ -2,6 +2,93 @@
 
 Esta guía proporciona un proceso detallado para integrar SonarCloud con tu proyecto GitHub y realizar un análisis de código. Usaremos el método de análisis manual debido a la ausencia de GitHub Actions o herramientas CI similares en el proyecto.
 
+## Configuración de Docker Compose para SonarQube y PostgreSQL
+
+Este `docker-compose.yml` configura un entorno con SonarQube y PostgreSQL. Puedes copiar y pegar el siguiente código en tu archivo `docker-compose.yml`.
+
+```yaml
+version: '2'
+
+services:
+  sonarqube:
+    image: sonarqube
+    ports:
+      - "9000:9000"
+    networks:
+      - sonarnet
+    environment:
+      - SONARQUBE_JDBC_URL=jdbc:postgresql://db:5432/sonar
+      - SONARQUBE_JDBC_USERNAME=sonar
+      - SONARQUBE_JDBC_PASSWORD=sonar
+    volumes:
+      - sonarqube_conf:/opt/sonarqube/conf
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_bundled-plugins:/opt/sonarqube/lib/bundled-plugins
+
+  db:
+    image: postgres
+    networks:
+      - sonarnet
+    environment:
+      - POSTGRES_USER=sonar
+      - POSTGRES_PASSWORD=sonar
+    volumes:
+      - postgresql:/var/lib/postgresql
+      - postgresql_data:/var/lib/postgresql/data
+
+networks:
+  sonarnet:
+    driver: bridge
+
+volumes:
+  sonarqube_conf:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_bundled-plugins:
+  postgresql:
+  postgresql_data:
+```
+
+### Descripción
+
+- **SonarQube**:
+  - Imagen: `sonarqube`
+  - Puerto: `9000`
+  - Redes: `sonarnet`
+  - Volúmenes:
+    - `sonarqube_conf`: Configuración de SonarQube.
+    - `sonarqube_data`: Datos de SonarQube.
+    - `sonarqube_extensions`: Extensiones de SonarQube.
+    - `sonarqube_bundled-plugins`: Plugins integrados de SonarQube.
+
+- **PostgreSQL**:
+  - Imagen: `postgres`
+  - Redes: `sonarnet`
+  - Volúmenes:
+    - `postgresql`: Datos del sistema PostgreSQL.
+    - `postgresql_data`: Datos de la base de datos.
+
+- **Redes**:
+  - `sonarnet`: Red de tipo `bridge` para la comunicación entre SonarQube y PostgreSQL.
+
+- **Volúmenes**:
+  - `sonarqube_conf`: Para almacenar la configuración de SonarQube.
+  - `sonarqube_data`: Para almacenar los datos de SonarQube.
+  - `sonarqube_extensions`: Para almacenar las extensiones de SonarQube.
+  - `sonarqube_bundled-plugins`: Para almacenar los plugins integrados de SonarQube.
+  - `postgresql`: Para almacenar los datos del sistema PostgreSQL.
+  - `postgresql_data`: Para almacenar los datos de la base de datos PostgreSQL.
+
+1. **Crear el archivo `docker-compose.yml`**: 
+   Crea un archivo llamado `docker-compose.yml` en el directorio raíz de tu proyecto y copia el contenido anterior en él.
+
+2. **Iniciar los contenedores**: 
+   En una terminal, navega hasta el directorio donde se encuentra el archivo `docker-compose.yml` y ejecuta el siguiente comando para iniciar los servicios de SonarQube y PostgreSQL:
+
+   ```sh
+   docker-compose up -d
+
 ## Pasos para Integrar y Analizar tu Proyecto con SonarCloud
 
 1. **Crea una Cuenta en SonarCloud e Inicia Sesión:**
@@ -51,6 +138,14 @@ Esta guía proporciona un proceso detallado para integrar SonarCloud con tu proy
     sonar.sources=.
     sonar.exclusions=**/*.java
     ```
+     Aquí hay una explicación de cada opción utilizada en este comando:
+
+   - `sonar-scanner`: Este es el comando principal para ejecutar SonarScanner.
+   - `-Dsonar.organization=g20-00`: Especifica la organización en SonarCloud. En este caso, `g20-00`.
+   - `-Dsonar.projectKey=G20-00_Integrador3`: Define la clave del proyecto. Esto debe ser único dentro de la organización.
+   - `-Dsonar.sources=.`: Indica el directorio raíz de las fuentes que se analizarán. Aquí, el punto `.` representa el directorio actual.
+   - `-Dsonar.exclusions=**/*.java`: Excluye ciertos archivos o directorios del análisis. En este ejemplo, se excluyen todos los archivos `.java`.
+   - `-Dsonar.host.url=https://sonarcloud.io`: Define la URL del servidor SonarCloud.
 
    ![Archivo de Configuración](file-DpQt6MXy1hss9wqTUaISDPuO)
 
@@ -61,8 +156,8 @@ Esta guía proporciona un proceso detallado para integrar SonarCloud con tu proy
     ```sh
     sonar-scanner -Dsonar.login=TU_SONAR_TOKEN
     ```
-
-   - Este comando iniciará el análisis de tu proyecto y enviará los resultados a SonarCloud.
+   - `-Dsonar.login=$SONAR_TOKEN`: Este comando utiliza el token generado para autenticarte en SonarCloud. Asegúrate de que la variable de entorno `SONAR_TOKEN` contenga tu token de SonarCloud.
+   
 
    ![Ejecutar SonarScanner](file-KD5BFCs7RXfTXDUb91xl6YjA)
 
