@@ -100,31 +100,43 @@ volumes:
    - Haz clic en "Generar nuevo token", ingresa un nombre para tu token y haz clic en "Generar".
    - Guarda este token de manera segura ya que lo necesitarás para la autenticación. **Nota:** No podrás ver este token nuevamente, así que asegúrate de copiarlo y guardarlo en un lugar seguro.
 
-   ![Token](file-9P1kcRfZoyhZ6fhUEeWV999L)
+   <p align="left">
+  <img src="Img/1.png" alt="captura" width="400" height="250" />
+</p>
+
 
 3. **Configura el Proyecto en SonarCloud:**
    - Navega a "Mis Proyectos" y haz clic en "Analizar nuevo proyecto".
    
-   ![Analizar Proyecto](file-7Fx4W5KnaW6Ye6jB83sl7mi3)
+  <p align="left">
+  <img src="Img/2.png" alt="captura" width="400" height="250" />
+</p>
 
    - Elige importar una organización desde GitHub y concede los permisos necesarios. Este paso requiere que inicies sesión con tu cuenta de GitHub y autorices a SonarCloud a acceder a tus repositorios.
 
-   ![Importar desde GitHub](file-3G14vm62WXdZKYoNP62gNl35)
+  <p align="left">
+  <img src="Img/3.png" alt="captura" width="400" height="250" />
+</p>
 
    - Selecciona el repositorio que deseas analizar (en este caso, `Integrador3`).
 
-   ![Seleccionar Repositorio](file-7lw5lyjJxI5z1i64WcscjeT6)
+  <p align="left">
+  <img src="Img/5.png" alt="captura" width="400" height="250" />
+</p>
 
 4. **Elige un Plan:**
    - Selecciona un plan gratuito o de pago según tus necesidades. Para repositorios privados, se requiere un plan de pago.
 
-   ![Elegir Plan](file-y6TSfJ4vS7D7nT4gIy1yH7kv)
+   <p align="left">
+  <img src="Img/4.png" alt="captura" width="400" height="250" />
+</p>
 
 5. **Configura el Método de Análisis:**
    - Dado que el proyecto no utiliza GitHub Actions u otras herramientas CI, selecciona el método de análisis "Manual".
 
-   ![Método de Análisis](file-BAyziF73eGDJ0cbeXKDoj3M6)
-
+  <p align="left">
+  <img src="Img/7.png" alt="captura" width="400" height="250" />
+</p>
 6. **Instala y Configura SonarScanner:**
    - Descarga e instala SonarScanner desde [SonarScanner Download](https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/).
    - Asegúrate de agregar SonarScanner a tu PATH para poder ejecutarlo desde cualquier lugar en tu terminal.
@@ -147,7 +159,9 @@ volumes:
    - `-Dsonar.exclusions=**/*.java`: Excluye ciertos archivos o directorios del análisis. En este ejemplo, se excluyen todos los archivos `.java`.
    - `-Dsonar.host.url=https://sonarcloud.io`: Define la URL del servidor SonarCloud.
 
-   ![Archivo de Configuración](file-DpQt6MXy1hss9wqTUaISDPuO)
+   <p align="left">
+  <img src="Img/11.png" alt="captura" width="400" height="250" />
+</p>
 
 7. **Ejecuta SonarScanner:**
    - Abre una terminal y navega a tu directorio de proyecto.
@@ -159,14 +173,20 @@ volumes:
    - `-Dsonar.login=$SONAR_TOKEN`: Este comando utiliza el token generado para autenticarte en SonarCloud. Asegúrate de que la variable de entorno `SONAR_TOKEN` contenga tu token de SonarCloud.
    
 
-   ![Ejecutar SonarScanner](file-KD5BFCs7RXfTXDUb91xl6YjA)
+  <p align="left">
+  <img src="Img/12.png" alt="captura" width="200" height="250" />
+</p>
 
 8. **Visualiza los Resultados del Análisis:**
    - Después de que el análisis se complete, navega al panel de tu proyecto en SonarCloud para ver los resultados.
 
-   ![Resultados del Análisis](file-BAyziF73eGDJ0cbeXKDoj3M6)
+   <p align="left">
+  <img src="Img/13.png" alt="captura" width="400" height="250" />
+</p>
 
-   ![Resumen del Análisis](file-NLym3ww7f0iuHD6oVtri7Q29)
+   <p align="left">
+  <img src="Img/14.png" alt="captura" width="400" height="250" />
+</p>
 
 ## Resumen del Análisis
 
