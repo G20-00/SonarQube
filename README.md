@@ -160,7 +160,7 @@ volumes:
    - `-Dsonar.host.url=https://sonarcloud.io`: Define la URL del servidor SonarCloud.
 
    <p align="left">
-  <img src="Img/11.png" alt="captura" width="400" height="200" />
+  <img src="Img/11.png" alt="captura" width="400" height="150" />
 </p>
 
 7. **Ejecuta SonarScanner:**
@@ -174,7 +174,7 @@ volumes:
    
 
   <p align="left">
-  <img src="Img/12.png" alt="captura" width="400" height="200" />
+  <img src="Img/10.png" alt="captura" width="400" height="100" />
 </p>
 
 8. **Visualiza los Resultados del Análisis:**
